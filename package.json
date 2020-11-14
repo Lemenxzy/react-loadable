@@ -1,6 +1,6 @@
 {
   "name": "react-loadable-customize-key",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A higher order component for loading components with promises(only key for json)",
   "main": "lib/index.js",
   "author": "James Kyle <me@thejameskyle.com>",
