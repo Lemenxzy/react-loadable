@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-function buildManifest(compiler, compilation) {
+function buildManifest(compiler, compilation, key) {
   let context = compiler.options.context;
   let manifest = {};
 
@@ -13,16 +13,22 @@ function buildManifest(compiler, compilation) {
         let id = module.id;
         let name = typeof module.libIdent === 'function' ? module.libIdent({ context }) : null;
         let publicPath = url.resolve(compilation.outputOptions.publicPath || '', file);
-        
+
         let currentModule = module;
         if (module.constructor.name === 'ConcatenatedModule') {
           currentModule = module.rootModule;
         }
         if (!manifest[currentModule.rawRequest]) {
-          manifest[currentModule.rawRequest] = [];
+          if (key) {
+            manifest[key + currentModule.rawRequest] = [];
+          } else {
+            manifest[currentModule.rawRequest] = [];
+          }
         }
 
-        manifest[currentModule.rawRequest].push({ id, name, file, publicPath });
+        let manifestKey = key ? key + currentModule.rawRequest : currentModule.rawRequest;
+
+        manifest[manifestKey].push({ id, name, file, publicPath });
       });
     });
   });
@@ -33,11 +39,12 @@ function buildManifest(compiler, compilation) {
 class ReactLoadablePlugin {
   constructor(opts = {}) {
     this.filename = opts.filename;
+    this.fileKey = opts.fileKey;
   }
 
   apply(compiler) {
     compiler.plugin('emit', (compilation, callback) => {
-      const manifest = buildManifest(compiler, compilation);
+      const manifest = buildManifest(compiler, compilation, this.fileKey);
       var json = JSON.stringify(manifest, null, 2);
       const outputDirectory = path.dirname(this.filename);
       try {

@@ -551,6 +551,22 @@ export default {
   ],
 };
 ```
+Add your only key.
+
+```js
+// webpack.config.js
+import { ReactLoadablePlugin } from 'react-loadable/webpack';
+
+export default {
+  plugins: [
+    new ReactLoadablePlugin({
+      filename: './dist/react-loadable.json',
+      fileKey: 'xxxx'
+    }),
+  ],
+};
+```
+
 
 Then we'll go back to our server and use this data to convert our modules to
 bundles.
