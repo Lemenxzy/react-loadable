@@ -2,8 +2,8 @@ import express from 'express';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import Loadable from 'react-loadable';
-import { getBundles } from 'react-loadable/webpack'
+import Loadable from 'react-loadable-customize-key';
+import { getBundles } from 'react-loadable-customize-key/webpack'
 import App from './components/App';
 
 const stats = require('./dist/react-loadable.json');
@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
       <App/>
     </Loadable.Capture>
   );
+  console.log('xxx', modules);
 
   let bundles = getBundles(stats, modules);
 

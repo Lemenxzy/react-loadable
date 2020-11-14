@@ -38,12 +38,13 @@ module.exports = {
   devtool: 'inline-source-map',
   resolve: {
     alias: {
-      'react-loadable': path.resolve(__dirname, 'src'),
+      'react-loadable-customize-key': path.resolve(__dirname, 'src'),
     },
   },
   plugins: [
     new ReactLoadablePlugin({
       filename:  path.resolve(__dirname, 'example', 'dist', 'react-loadable.json'),
+      fileKey: '123'
     }),
   ]
 };

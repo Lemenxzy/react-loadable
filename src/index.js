@@ -110,7 +110,8 @@ function createLoadableComponent(loadFn, options) {
       timeout: null,
       render: render,
       webpack: null,
-      modules: null
+      modules: null,
+      appName: ''
     },
     options
   );
@@ -166,7 +167,7 @@ function createLoadableComponent(loadFn, options) {
     _loadModule() {
       if (this.context.loadable && Array.isArray(opts.modules)) {
         opts.modules.forEach(moduleName => {
-          this.context.loadable.report(moduleName);
+          this.context.loadable.report(opts.appName ? `${opts.appName}${moduleName}` : moduleName);
         });
       }
 
